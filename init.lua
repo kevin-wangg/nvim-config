@@ -9,6 +9,7 @@ vim.opt.expandtab = false
 vim.opt.wrap = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.clipboard = "unnamedplus"
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -99,6 +100,11 @@ require("lazy").setup({
 			},
 		},
 	},
+	{
+		"coder/claudecode.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		config = true,
+	}
 })
 
 require('mason').setup()
