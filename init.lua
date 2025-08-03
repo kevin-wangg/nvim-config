@@ -110,17 +110,7 @@ require('mason-tool-installer').setup({
 		"rust_analyzer",
 	}
 })
-require('blink.cmp').setup({
-	completion = {
-		menu = {
-			auto_show = false,
-		},
-		trigger = {
-			show_on_keyword = false,
-			show_on_trigger_character = false,
-		},
-	},
-})
+require('blink.cmp').setup()
 require("fff").setup({})
 require('gitsigns').setup()
 -- lualine shows the full file path instead of just name
