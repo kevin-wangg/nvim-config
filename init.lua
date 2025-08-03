@@ -30,68 +30,68 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 -- Setup lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out,                            "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- LSP and tools
-  { "neovim/nvim-lspconfig" },
-  { "williamboman/mason.nvim" },
-  { "williamboman/mason-lspconfig.nvim" },
-  { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-  -- Navigation
-  { "christoomey/vim-tmux-navigator" },
-  -- File tree
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    keys = {
-      {
-        "<leader>e",
-        function() vim.cmd("Neotree toggle") end,
-        desc = "Toggle Neo-tree",
-      },
-    },
-  },
-  -- Git signs
-  { "lewis6991/gitsigns.nvim" },
-  -- Status line
-  { "nvim-lualine/lualine.nvim" },
-  -- Colorscheme
-  { "rebelot/kanagawa.nvim" },
-  -- Completion
-  {
-    "Saghen/blink.cmp",
-    build = "cargo build --release",
-  },
-  -- File picker
-  {
-    "dmtrKovalenko/fff.nvim",
-    build = "cargo build --release",
-    keys = {
-      {
-        "<leader>sf",
-        function() require("fff").find_files() end,
-        desc = "Find files with FFF",
-      },
-    },
-  },
+	-- LSP and tools
+	{ "neovim/nvim-lspconfig" },
+	{ "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
+	-- Navigation
+	{ "christoomey/vim-tmux-navigator" },
+	-- File tree
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"MunifTanjim/nui.nvim",
+		},
+		keys = {
+			{
+				"<leader>e",
+				function() vim.cmd("Neotree toggle") end,
+				desc = "Toggle Neo-tree",
+			},
+		},
+	},
+	-- Git signs
+	{ "lewis6991/gitsigns.nvim" },
+	-- Status line
+	{ "nvim-lualine/lualine.nvim" },
+	-- Colorscheme
+	{ "rebelot/kanagawa.nvim" },
+	-- Completion
+	{
+		"Saghen/blink.cmp",
+		build = "cargo build --release",
+	},
+	-- File picker
+	{
+		"dmtrKovalenko/fff.nvim",
+		build = "cargo build --release",
+		keys = {
+			{
+				"<leader>sf",
+				function() require("fff").find_files() end,
+				desc = "Find files with FFF",
+			},
+		},
+	},
 })
 
 require('mason').setup()
@@ -104,28 +104,28 @@ require('mason-tool-installer').setup({
 	}
 })
 require('blink.cmp').setup({
-  completion = {
-     menu = {
-      auto_show = false,
-    },
-    trigger = {
-      show_on_keyword = false,
-      show_on_trigger_character = false,
-    },
-  },
+	completion = {
+		menu = {
+			auto_show = false,
+		},
+		trigger = {
+			show_on_keyword = false,
+			show_on_trigger_character = false,
+		},
+	},
 })
 require("fff").setup({})
 require('gitsigns').setup()
 -- lualine shows the full file path instead of just name
 require('lualine').setup({
-  sections = {
-    lualine_c = {
-      {
-        'filename',
-        path = 1,
-      }
-    }
-  }
+	sections = {
+		lualine_c = {
+			{
+				'filename',
+				path = 1,
+			}
+		}
+	}
 })
 
 vim.lsp.config('lua_ls', {
