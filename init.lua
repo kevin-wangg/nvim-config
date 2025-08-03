@@ -80,6 +80,12 @@ require("lazy").setup({
 		"Saghen/blink.cmp",
 		build = "cargo build --release",
 	},
+	-- Auto close brackets
+	{
+		"m4xshen/autoclose.nvim",
+		event = "InsertEnter",
+		config = true,
+	},
 	-- File picker
 	{
 		"dmtrKovalenko/fff.nvim",
