@@ -86,7 +86,13 @@ require("lazy").setup({
 	{
 		"m4xshen/autoclose.nvim",
 		event = "InsertEnter",
-		config = true,
+		config = function()
+			require("autoclose").setup({
+				options = {
+					disabled_filetypes = { "text", "markdown" }
+				}
+			})
+		end,
 	},
 	-- File picker
 	{
@@ -174,14 +180,13 @@ vim.lsp.config('rust_analyzer', {
 		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr })
 		vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr })
 		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
-		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
+		vim.keymap.set('n', 'gR', vim.lsp.buf.references, { buffer = bufnr })
 		vim.keymap.set('n', 'g.', vim.lsp.buf.code_action, { buffer = bufnr })
 		vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = bufnr })
 		vim.keymap.set('n', '<leader>q', function()
 			vim.diagnostic.setqflist()
 			vim.cmd('copen')
 		end, { buffer = bufnr })
-		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr })
 		vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr })
 	end,
 })
