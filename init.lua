@@ -11,6 +11,10 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
 
+-- Need to norg file rendering
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "nc"
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
 	callback = function()
@@ -106,13 +110,49 @@ require("lazy").setup({
 			},
 		},
 	},
+	-- Claude code plugin
 	{
 		"coder/claudecode.nvim",
 		dependencies = { "folke/snacks.nvim" },
 		config = true,
-	}
+	},
+	-- Treesitter plugin
+	{
+		"nvim-treesitter/nvim-treesitter",
+		branch = 'master',
+		lazy = false,
+		build = ":TSUpdate",
+	},
+	-- Neorg for note taking
+	{
+		"nvim-neorg/neorg",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+		build = ":Neorg sync-parsers",
+		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+		version = "*", -- Pin Neorg to the latest stable release
+		config = function()
+			require('neorg').setup {
+				load = {
+					["core.defaults"] = {},
+					["core.concealer"] = {},
+					["core.dirman"] = {
+						config = {
+							workspaces = {
+								notes = "~/neorg/notes"
+							}
+						}
+					}
+				}
+			}
+		end,
+	},
 })
 
+require("nvim-treesitter.configs").setup({
+  highlight = {
+    enable = true,
+  },
+})
 require('mason').setup()
 require('mason-lspconfig').setup()
 require('mason-tool-installer').setup({
