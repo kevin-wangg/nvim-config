@@ -13,7 +13,6 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Need to norg file rendering
 vim.opt.conceallevel = 2
-vim.opt.concealcursor = "nc"
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
