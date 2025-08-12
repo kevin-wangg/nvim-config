@@ -92,7 +92,7 @@ require("lazy").setup({
 		config = function()
 			require("autoclose").setup({
 				options = {
-					disabled_filetypes = { "text", "markdown" }
+					disabled_filetypes = { "text", "markdown", "norg" }
 				}
 			})
 		end,
@@ -170,6 +170,7 @@ require("nvim-treesitter.configs").setup({
 	highlight = {
 		enable = true,
 	},
+	ensure_installed = { "rust" }
 })
 require('mason').setup()
 require('mason-lspconfig').setup()
