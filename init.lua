@@ -11,7 +11,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
 
--- Need to norg file rendering
+-- Text decorations in neorg files are concealed properly
 vim.opt.conceallevel = 2
 
 -- Highlight on yank
