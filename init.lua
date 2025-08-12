@@ -137,20 +137,39 @@ require("lazy").setup({
 					["core.dirman"] = {
 						config = {
 							workspaces = {
-								notes = "~/neorg/notes"
+								notes = "~/neorg/notes",
+								journal = "~/neorg/journal"
 							}
 						}
-					}
+					},
 				}
 			}
 		end,
 	},
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
+	}
 })
 
 require("nvim-treesitter.configs").setup({
-  highlight = {
-    enable = true,
-  },
+	highlight = {
+		enable = true,
+	},
 })
 require('mason').setup()
 require('mason-lspconfig').setup()
@@ -197,36 +216,37 @@ vim.lsp.config('lua_ls', {
 		},
 	},
 	on_attach = function(_, bufnr)
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr })
-		vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr })
-		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
-		vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr })
-		vim.keymap.set('n', 'g.', vim.lsp.buf.code_action, { buffer = bufnr })
-		vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = bufnr })
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
+		vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr, desc = "Go to type definition" })
+		vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { buffer = bufnr, desc = "Go to implementation" })
+		vim.keymap.set('n', 'gR', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+		vim.keymap.set('n', 'g.', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code action" })
+		vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = bufnr, desc = "Hover info" })
 		vim.keymap.set('n', '<leader>q', function()
 			vim.diagnostic.setqflist()
 			vim.cmd('copen')
-		end, { buffer = bufnr })
-		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr })
-		vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr })
+		end, { buffer = bufnr, desc = "Open quickfix list" })
+		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
+		vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr, desc = "Format" })
 	end,
 })
 
 vim.lsp.config('rust_analyzer', {
 	on_attach = function(client, bufnr)
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
-		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr })
-		vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr })
-		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
-		vim.keymap.set('n', 'gR', vim.lsp.buf.references, { buffer = bufnr })
-		vim.keymap.set('n', 'g.', vim.lsp.buf.code_action, { buffer = bufnr })
-		vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = bufnr })
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
+		vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr, desc = "Go to type definition" })
+		vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { buffer = bufnr, desc = "Go to implementation" })
+		vim.keymap.set('n', 'gR', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+		vim.keymap.set('n', 'g.', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code action" })
+		vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = bufnr, desc = "Hover info" })
 		vim.keymap.set('n', '<leader>q', function()
 			vim.diagnostic.setqflist()
 			vim.cmd('copen')
-		end, { buffer = bufnr })
-		vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr })
+		end, { buffer = bufnr, desc = "Open quickfix list" })
+		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
+		vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr, desc = "Format" })
 	end,
 })
 
