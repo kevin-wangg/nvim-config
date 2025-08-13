@@ -138,10 +138,15 @@ require("lazy").setup({
 						config = {
 							workspaces = {
 								notes = "~/neorg/notes",
-								journal = "~/neorg/journal"
+								journal = "~/neorg"
 							}
 						}
 					},
+					["core.journal"] = {
+						config = {
+							workspace = "journal"
+						}
+					}
 				}
 			}
 		end,
@@ -167,10 +172,10 @@ require("lazy").setup({
 })
 
 require("nvim-treesitter.configs").setup({
+	-- Enable highlight to proper text decorations rendering in neorg
 	highlight = {
 		enable = true,
-	},
-	ensure_installed = { "rust" }
+	}
 })
 require('mason').setup()
 require('mason-lspconfig').setup()
