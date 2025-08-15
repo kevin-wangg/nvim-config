@@ -183,6 +183,7 @@ require('mason-tool-installer').setup({
 	ensure_installed = {
 		"lua_ls",
 		"stylua",
+		"clangd",
 		"rust_analyzer",
 	}
 })
@@ -256,6 +257,23 @@ vim.lsp.config('rust_analyzer', {
 	end,
 })
 
+vim.lsp.config('clangd', {
+	on_attach = function(client, bufnr)
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
+		vim.keymap.set('n', 'gy', vim.lsp.buf.type_definition, { buffer = bufnr, desc = "Go to type definition" })
+		vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { buffer = bufnr, desc = "Go to implementation" })
+		vim.keymap.set('n', 'gR', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+		vim.keymap.set('n', 'g.', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code action" })
+		vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { buffer = bufnr, desc = "Hover info" })
+		vim.keymap.set('n', '<leader>q', function()
+			vim.diagnostic.setqflist()
+			vim.cmd('copen')
+		end, { buffer = bufnr, desc = "Open quickfix list" })
+		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
+		vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { buffer = bufnr, desc = "Format" })
+	end,
+})
 
 vim.keymap.set('n', '<leader>x', ':q<CR>')
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>')
