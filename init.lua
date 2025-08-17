@@ -1,4 +1,5 @@
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -73,6 +74,17 @@ require("lazy").setup({
 				desc = "Toggle Neo-tree",
 			},
 		},
+		config = function()
+			require("neo-tree").setup({
+				window = {
+					mappings = {
+						["<C-v>"] = "open_vsplit", -- Open file in vertical split
+						["<C-s>"] = "open_split", -- Open file in horizontal split (bonus)
+						["<C-t>"] = "open_tabnew", -- Open file in new tab (bonus)
+					},
+				},
+			})
+		end,
 	},
 	-- Git signs
 	{ "lewis6991/gitsigns.nvim" },
@@ -108,6 +120,7 @@ require("lazy").setup({
 				desc = "Find files with FFF",
 			},
 		},
+		config = true,
 	},
 	-- Claude code plugin
 	{
@@ -130,10 +143,17 @@ require("lazy").setup({
 		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
 		version = "*", -- Pin Neorg to the latest stable release
 		config = function()
-			require('neorg').setup {
+			local neorg = require('neorg')
+			neorg.setup {
 				load = {
 					["core.defaults"] = {},
 					["core.concealer"] = {},
+					["core.tempus"] = {},
+					["core.keybinds"] = {
+						config = {
+							default_keybinds = true
+						}
+					},
 					["core.dirman"] = {
 						config = {
 							workspaces = {
@@ -159,15 +179,6 @@ require("lazy").setup({
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 		},
-		keys = {
-			{
-				"<leader>?",
-				function()
-					require("which-key").show({ global = false })
-				end,
-				desc = "Buffer Local Keymaps (which-key)",
-			},
-		},
 	}
 })
 
@@ -188,7 +199,6 @@ require('mason-tool-installer').setup({
 	}
 })
 require('blink.cmp').setup()
-require("fff").setup({})
 require('gitsigns').setup()
 -- lualine shows the full file path instead of just name
 require('lualine').setup({
@@ -284,6 +294,10 @@ vim.keymap.set('n', '<C-k>', '<CMD>TmuxNavigateUp<CR>')
 vim.keymap.set('n', '<C-l>', '<CMD>TmuxNavigateRight<CR>')
 vim.keymap.set('n', 'H', ':tabprevious<CR>')
 vim.keymap.set('n', 'L', ':tabnext<CR>')
+
+vim.keymap.set('n', '<leader>nd', '<Plug>(neorg.tempus.insert-date)',
+	{ buffer = true, desc = "Insert todays date at cursor position" }
+)
 
 -- Set the colorscheme
 vim.cmd('colorscheme kanagawa')
