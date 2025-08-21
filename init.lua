@@ -56,8 +56,6 @@ require("lazy").setup({
 	{ "williamboman/mason.nvim" },
 	{ "williamboman/mason-lspconfig.nvim" },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-	-- Navigation
-	{ "christoomey/vim-tmux-navigator" },
 	-- File tree
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -174,16 +172,12 @@ require("lazy").setup({
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
-		},
-	}
+		opts = {},
+	},
 })
 
-require("nvim-treesitter.configs").setup({
-	-- Enable highlight to proper text decorations rendering in neorg
+-- Enable highlight to proper text decorations rendering in neorg
+require('nvim-treesitter.configs').setup({
 	highlight = {
 		enable = true,
 	}
@@ -285,15 +279,26 @@ vim.lsp.config('clangd', {
 	end,
 })
 
+-- Nvim tmux navigation
+local function smart_move(direction, tmux_cmd)
+	local curwin = vim.api.nvim_get_current_win()
+	vim.cmd('wincmd ' .. direction)
+	if curwin == vim.api.nvim_get_current_win() then
+		vim.fn.system('tmux select-pane ' .. tmux_cmd)
+	end
+end
+
+vim.keymap.set('n', '<C-h>', function() smart_move('h', '-L') end, { silent = true })
+vim.keymap.set('n', '<C-j>', function() smart_move('j', '-D') end, { silent = true })
+vim.keymap.set('n', '<C-k>', function() smart_move('k', '-U') end, { silent = true })
+vim.keymap.set('n', '<C-l>', function() smart_move('l', '-R') end, { silent = true })
+
 vim.keymap.set('n', '<leader>x', ':q<CR>')
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>')
 vim.keymap.set('n', '<leader>h', ':split<CR>')
-vim.keymap.set('n', '<C-h>', '<CMD>TmuxNavigateLeft<CR>')
-vim.keymap.set('n', '<C-j>', '<CMD>TmuxNavigateDown<CR>')
-vim.keymap.set('n', '<C-k>', '<CMD>TmuxNavigateUp<CR>')
-vim.keymap.set('n', '<C-l>', '<CMD>TmuxNavigateRight<CR>')
 vim.keymap.set('n', 'H', ':tabprevious<CR>')
 vim.keymap.set('n', 'L', ':tabnext<CR>')
+vim.keymap.set('n', '<C-t>', ':tabnew<CR>')
 
 vim.keymap.set('n', '<leader>nd', '<Plug>(neorg.tempus.insert-date)',
 	{ buffer = true, desc = "Insert todays date at cursor position" }
