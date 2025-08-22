@@ -300,9 +300,5 @@ vim.keymap.set('n', 'H', ':tabprevious<CR>')
 vim.keymap.set('n', 'L', ':tabnext<CR>')
 vim.keymap.set('n', '<C-t>', ':tabnew<CR>')
 
-vim.keymap.set('n', '<leader>nd', '<Plug>(neorg.tempus.insert-date)',
-	{ buffer = true, desc = "Insert todays date at cursor position" }
-)
-
 -- Set the colorscheme
 vim.cmd('colorscheme kanagawa')
