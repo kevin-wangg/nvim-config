@@ -68,7 +68,7 @@ require("lazy").setup({
 		keys = {
 			{
 				"<leader>e",
-				function() vim.cmd("Neotree toggle") end,
+				function() vim.cmd("Neotree toggle reveal") end,
 				desc = "Toggle Neo-tree",
 			},
 		},
@@ -120,54 +120,12 @@ require("lazy").setup({
 		},
 		config = true,
 	},
-	-- Claude code plugin
-	{
-		"coder/claudecode.nvim",
-		dependencies = { "folke/snacks.nvim" },
-		config = true,
-	},
 	-- Treesitter plugin
 	{
 		"nvim-treesitter/nvim-treesitter",
 		branch = 'master',
 		lazy = false,
 		build = ":TSUpdate",
-	},
-	-- Neorg for note taking
-	{
-		"nvim-neorg/neorg",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
-		build = ":Neorg sync-parsers",
-		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-		version = "*", -- Pin Neorg to the latest stable release
-		config = function()
-			local neorg = require('neorg')
-			neorg.setup {
-				load = {
-					["core.defaults"] = {},
-					["core.concealer"] = {},
-					["core.tempus"] = {},
-					["core.keybinds"] = {
-						config = {
-							default_keybinds = true
-						}
-					},
-					["core.dirman"] = {
-						config = {
-							workspaces = {
-								notes = "~/neorg/notes",
-								journal = "~/neorg"
-							}
-						}
-					},
-					["core.journal"] = {
-						config = {
-							workspace = "journal"
-						}
-					}
-				}
-			}
-		end,
 	},
 	{
 		"folke/which-key.nvim",
@@ -176,12 +134,21 @@ require("lazy").setup({
 	},
 })
 
--- Enable highlight to proper text decorations rendering in neorg
-require('nvim-treesitter.configs').setup({
-	highlight = {
-		enable = true,
-	}
-})
+require('nvim-treesitter.configs').setup {
+    -- Required fields
+    ensure_installed = { "cpp", "rust" },
+    sync_install = false,
+    auto_install = true,
+	ignore_install = {},  -- Required: list of parsers to ignore
+    modules = {},  -- Required: empty table for modules
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+    },
+  }
 require('mason').setup()
 require('mason-lspconfig').setup()
 require('mason-tool-installer').setup({
@@ -192,7 +159,11 @@ require('mason-tool-installer').setup({
 		"rust_analyzer",
 	}
 })
-require('blink.cmp').setup()
+require('blink.cmp').setup({
+	enabled = function()
+		return vim.bo.filetype ~= "norg"
+	end
+})
 require('gitsigns').setup()
 -- lualine shows the full file path instead of just name
 require('lualine').setup({
